@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlyC Beauty — Catalogue M'Nails Île Maurice</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="logo">
+                <h1>AlyC Beauty</h1>
+                <span class="tagline">Distributrice officielle M'Nails — Île Maurice</span>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Rechercher un produit...">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </div>
+                <button class="cart-btn" id="cartBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>L'excellence M'Nails,<br>livrée à Maurice</h2>
+            <p>Découvrez notre catalogue complet de produits professionnels pour ongles. Gels, vernis semi-permanents, nail art, outils — tout ce qu'il faut pour sublimer vos créations.</p>
+            <a href="#catalogue" class="hero-cta">Explorer le catalogue</a>
+        </div>
+    </section>
+
+    <!-- MAIN -->
+    <main class="main-content" id="catalogue">
+        <aside class="sidebar" id="sidebar">
+            <h3>Catégories</h3>
+            <button class="cat-btn active" data-category="all">Tous les produits</button>
+            <div id="categoryList"></div>
+        </aside>
+
+        <section class="products-section">
+            <div class="products-header">
+                <p class="results-count" id="resultsCount"></p>
+                <select id="sortSelect">
+                    <option value="nom">Nom A-Z</option>
+                    <option value="nom-desc">Nom Z-A</option>
+                    <option value="prix">Prix croissant</option>
+                    <option value="prix-desc">Prix décroissant</option>
+                </select>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+            <div class="load-more-container">
+                <button class="load-more-btn" id="loadMoreBtn" style="display:none;">Voir plus de produits</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- CART PANEL -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-panel" id="cartPanel">
+        <div class="cart-header">
+            <h3>Mon panier</h3>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total">
+                <span>Total estimé :</span>
+                <strong id="cartTotal">0 MUR</strong>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Valider ma commande</button>
+        </div>
+    </aside>
+
+    <!-- ORDER MODAL -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h3>Finaliser ma commande</h3>
+            <p class="modal-subtitle">Remplissez vos coordonnées et nous vous enverrons un devis sous 24h.</p>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="clientName">Nom / Raison sociale *</label>
+                    <input type="text" id="clientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientWhatsapp">WhatsApp *</label>
+                    <input type="tel" id="clientWhatsapp" placeholder="+230 5XXX XXXX" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientEmail">Email *</label>
+                    <input type="email" id="clientEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientAddress">Adresse de livraison</label>
+                    <input type="text" id="clientAddress">
+                </div>
+                <div class="form-group">
+                    <label for="clientNotes">Notes / Remarques</label>
+                    <textarea id="clientNotes" rows="3"></textarea>
+                </div>
+                <div class="order-summary" id="orderSummary"></div>
+                <button type="submit" class="submit-btn" id="submitBtn">Envoyer ma commande</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal confirm-modal">
+            <div class="confirm-icon">✓</div>
+            <h3>Commande envoyée !</h3>
+            <p>Merci pour votre commande. Vous recevrez votre devis par WhatsApp sous 24h.</p>
+            <p class="confirm-ref" id="confirmRef"></p>
+            <button class="hero-cta" id="closeConfirm">Retour au catalogue</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h4>AlyC Beauty</h4>
+                <p>Distributrice officielle M'Nails<br>Île Maurice</p>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>WhatsApp : [à compléter]</p>
+                <p>Email : [à compléter]</p>
+            </div>
+        </div>
+        <p class="footer-copy">&copy; 2026 AlyC Beauty — Tous droits réservés</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/order.js"></script>
+</body>
+</html>
