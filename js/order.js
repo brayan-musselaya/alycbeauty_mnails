@@ -67,13 +67,30 @@ function buildOrderSummary() {
     summary.innerHTML = html;
 }
 
+function generateOrderRef() {
+    // Genere une reference unique CMD-2026-XXXX
+    // Format : CMD-ANNEE-MDHHMM (mois+jour+heure+minute pour unicite)
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    const sec = String(now.getSeconds()).padStart(2, '0');
+    return `CMD-${year}-${month}${day}${hour}${min}${sec}`;
+}
+
 async function submitOrder() {
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours...';
 
+    // Generer la reference AVANT l'envoi — meme ref pour le client et le Sheet
+    const orderRef = generateOrderRef();
+
     const orderData = {
         timestamp: new Date().toISOString(),
+        ref: orderRef,
         client: {
             nom: document.getElementById('clientName').value.trim(),
             whatsapp: document.getElementById('clientWhatsapp').value.trim(),
@@ -116,8 +133,7 @@ async function submitOrder() {
     if (success) {
         document.getElementById('orderModal').classList.remove('open');
 
-        const ref = 'CMD-' + Date.now().toString(36).toUpperCase();
-        document.getElementById('confirmRef').textContent = `Référence : ${ref}`;
+        document.getElementById('confirmRef').textContent = `Référence : ${orderRef}`;
         document.getElementById('confirmModal').classList.add('open');
 
         clearCart();
