@@ -1,6 +1,7 @@
 /* ============================================
    AlyC Beauty — Soumission de commande
    Envoie vers Google Apps Script (webhook)
+   Mode CORS avec fallback no-cors
    ============================================ */
 
 // URL du Google Apps Script — à configurer après déploiement
@@ -68,8 +69,6 @@ function buildOrderSummary() {
 }
 
 function generateOrderRef() {
-    // Genere une reference unique CMD-2026-XXXX
-    // Format : CMD-ANNEE-MDHHMM (mois+jour+heure+minute pour unicite)
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -85,7 +84,6 @@ async function submitOrder() {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours...';
 
-    // Generer la reference AVANT l'envoi — meme ref pour le client et le Sheet
     const orderRef = generateOrderRef();
 
     const orderData = {
@@ -102,6 +100,8 @@ async function submitOrder() {
             id: item.id,
             ref: item.ref,
             nom: item.nom,
+            id_product: item.id_product || '',
+            id_attribute: item.id_attribute || '0',
             prix_mur: item.prix_mur,
             qty: item.qty,
             total: item.prix_mur * item.qty,
@@ -111,19 +111,52 @@ async function submitOrder() {
     };
 
     let success = false;
+    let serverRef = orderRef;
 
     if (APPS_SCRIPT_URL) {
+        // Tentative 1 : mode CORS (permet de lire la réponse)
         try {
             const formData = new FormData();
             formData.append('payload', JSON.stringify(orderData));
-            await fetch(APPS_SCRIPT_URL, {
+
+            const response = await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors',
                 body: formData,
             });
-            success = true;
-        } catch (err) {
-            console.error('Erreur envoi commande:', err);
+
+            if (response.ok || response.type === 'opaqueredirect') {
+                // Redirect 302 suivi automatiquement par le navigateur
+                try {
+                    const result = await response.json();
+                    if (result.success) {
+                        success = true;
+                        serverRef = result.ref || orderRef;
+                    } else {
+                        console.error('Erreur serveur:', result.error);
+                    }
+                } catch {
+                    // Réponse non-JSON mais HTTP OK = probablement OK
+                    success = response.ok;
+                }
+            }
+        } catch (corsErr) {
+            console.warn('Mode CORS échoué, fallback no-cors:', corsErr.message);
+
+            // Tentative 2 : fallback no-cors (fire & forget)
+            try {
+                const formData = new FormData();
+                formData.append('payload', JSON.stringify(orderData));
+
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData,
+                });
+                // En no-cors, pas de confirmation possible
+                success = true;
+            } catch (fallbackErr) {
+                console.error('Échec complet envoi commande:', fallbackErr);
+            }
         }
     } else {
         console.log('Mode démo — commande:', JSON.stringify(orderData, null, 2));
@@ -133,7 +166,7 @@ async function submitOrder() {
     if (success) {
         document.getElementById('orderModal').classList.remove('open');
 
-        document.getElementById('confirmRef').textContent = `Référence : ${orderRef}`;
+        document.getElementById('confirmRef').textContent = `Référence : ${serverRef}`;
         document.getElementById('confirmModal').classList.add('open');
 
         clearCart();

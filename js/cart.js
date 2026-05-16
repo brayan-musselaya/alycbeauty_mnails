@@ -30,6 +30,8 @@ function addToCart(product) {
             id: product.id,
             ref: product.ref,
             nom: product.nom,
+            id_product: product.id_product || '',
+            id_attribute: product.id_attribute || '0',
             prix_mur: product.prix_mur,
             image: product.image,
             qty: 1,
