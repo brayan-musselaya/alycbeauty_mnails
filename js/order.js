@@ -50,9 +50,10 @@ function buildOrderSummary() {
     let html = '<p class="order-summary-title">Récapitulatif</p>';
 
     cart.forEach(item => {
+        const volLabel = item.volume ? ' (' + escapeHtml(item.volume) + ')' : '';
         html += `
             <div class="order-summary-line">
-                <span>${escapeHtml(item.nom)} × ${item.qty}</span>
+                <span>${escapeHtml(item.nom)}${volLabel} × ${item.qty}</span>
                 <span>${formatMUR(item.prix_mur * item.qty)} MUR</span>
             </div>
         `;
@@ -100,6 +101,7 @@ async function submitOrder() {
             id: item.id,
             ref: item.ref,
             nom: item.nom,
+            volume: item.volume || null,
             id_product: item.id_product || '',
             id_attribute: item.id_attribute || '0',
             prix_mur: item.prix_mur,

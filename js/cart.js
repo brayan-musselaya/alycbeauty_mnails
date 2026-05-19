@@ -1,6 +1,6 @@
 /* ============================================
    AlyC Beauty — Gestion du panier (localStorage)
-   Max 10 unités par produit
+   Max 10 unités par produit/variante
    ============================================ */
 
 const MAX_QTY = 10;
@@ -28,8 +28,9 @@ function addToCart(product) {
     } else {
         cart.push({
             id: product.id,
-            ref: product.ref,
+            ref: product.ref || product.id_product || product.id,
             nom: product.nom,
+            volume: product.volume || null,
             id_product: product.id_product || '',
             id_attribute: product.id_attribute || '0',
             prix_mur: product.prix_mur,
@@ -81,12 +82,17 @@ function updateCartUI() {
     footerEl.style.display = 'block';
     document.getElementById('cartTotal').textContent = formatMUR(getCartTotal()) + ' MUR';
 
-    itemsEl.innerHTML = cart.map(item => `
+    itemsEl.innerHTML = cart.map(item => {
+        const volumeTag = item.volume
+            ? '<span class="cart-item-volume">' + escapeHtml(item.volume) + '</span>'
+            : '';
+        return `
         <div class="cart-item">
             <img class="cart-item-img" src="${item.image}" alt="${escapeHtml(item.nom)}"
                  onerror="this.style.display='none'">
             <div class="cart-item-info">
                 <p class="cart-item-name">${escapeHtml(item.nom)}</p>
+                ${volumeTag}
                 <p class="cart-item-price">${formatMUR(item.prix_mur * item.qty)} MUR</p>
             </div>
             <div class="cart-item-qty">
@@ -96,7 +102,7 @@ function updateCartUI() {
             </div>
             <button class="cart-item-remove" data-id="${item.id}" title="Retirer">✕</button>
         </div>
-    `).join('');
+    `}).join('');
 
     itemsEl.querySelectorAll('.qty-btn').forEach(btn => {
         btn.addEventListener('click', () => {
