@@ -481,31 +481,36 @@ body {
 }
 
 /* ---- PRODUCT DETAIL MODAL ---- */
-.pd-modal {
-    max-width: 800px;
+.modal.pd-modal {
+    max-width: 900px;
+    width: 90vw;
     padding: 0;
     overflow: hidden;
+    max-height: 85vh;
 }
 
 .pd-layout {
-    display: flex;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
     min-height: 0;
+    max-height: 85vh;
 }
 
 .pd-image-col {
-    width: 45%;
-    flex-shrink: 0;
     background: var(--pink-pale);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     padding: 24px;
+    overflow-y: auto;
+    max-height: 85vh;
 }
 
 .pd-image {
     max-width: 100%;
-    max-height: 400px;
+    max-height: 320px;
     object-fit: contain;
+    margin-bottom: 16px;
 }
 
 .pd-info-col {
@@ -586,13 +591,19 @@ body {
 .pd-feat-list {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 3px 12px;
+    gap: 4px 12px;
     font-size: 0.8rem;
+    align-items: baseline;
 }
 
 .pd-feat-list dt {
-    color: var(--text-muted);
-    font-weight: 500;
+    color: var(--text-light);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.pd-feat-list dt::after {
+    content: " :";
 }
 
 .pd-feat-list dd {
@@ -652,8 +663,7 @@ body {
 
 .pd-purchase {
     margin-top: auto;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
+    padding-top: 12px;
 }
 
 .pd-price-row {
@@ -676,8 +686,7 @@ body {
 }
 
 .pd-weight {
-    font-size: 0.78rem;
-    color: var(--text-muted);
+    display: none;
 }
 
 .pd-add-btn {
@@ -1137,13 +1146,15 @@ body {
 /* ---- RESPONSIVE ---- */
 @media (max-width: 900px) {
     .pd-layout {
+        display: flex;
         flex-direction: column;
     }
 
     .pd-image-col {
         width: 100%;
         padding: 16px;
-        max-height: 260px;
+        max-height: none;
+        overflow-y: visible;
     }
 
     .pd-image {
@@ -1155,10 +1166,15 @@ body {
         max-height: none;
     }
 
-    .pd-modal {
+    .modal.pd-modal {
         max-width: 95vw;
+        width: 95vw;
         max-height: 92vh;
         overflow-y: auto;
+    }
+
+    .pd-feat-list dd {
+        white-space: normal;
     }
 }
 

@@ -228,9 +228,13 @@ function openProductDetail(product) {
     modal.querySelector('.pd-name').textContent = product.nom;
     modal.querySelector('.pd-ref').textContent = 'Réf. ' + product.id_product;
 
-    // Description
+    // Features
+    const featEl = modal.querySelector('.pd-features');
+    const hasFeatures = product.features && Object.keys(product.features).length > 0;
+
+    // Description — hidden when structured features exist (avoids duplication)
     const descEl = modal.querySelector('.pd-description');
-    if (product.description) {
+    if (product.description && !hasFeatures) {
         const lines = product.description.split('\n');
         const short = lines.slice(0, 4).join('\n');
         const isTruncated = lines.length > 4;
@@ -247,9 +251,6 @@ function openProductDetail(product) {
     } else {
         descEl.innerHTML = '';
     }
-
-    // Features
-    const featEl = modal.querySelector('.pd-features');
     if (product.features && Object.keys(product.features).length > 0) {
         const entries = Object.entries(product.features).slice(0, 8);
         featEl.innerHTML = '<h4>Caractéristiques</h4><dl class="pd-feat-list">' +
