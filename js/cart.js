@@ -80,7 +80,9 @@ function updateCartUI() {
     }
 
     footerEl.style.display = 'block';
-    document.getElementById('cartTotal').textContent = formatMUR(getCartTotal()) + ' MUR';
+    const total = getCartTotal();
+    document.getElementById('cartTotal').textContent = formatMUR(total) + ' MUR';
+    updateShippingMsg(total);
 
     itemsEl.innerHTML = cart.map(item => {
         const volumeTag = item.volume
@@ -93,7 +95,7 @@ function updateCartUI() {
             <div class="cart-item-info">
                 <p class="cart-item-name">${escapeHtml(item.nom)}</p>
                 ${volumeTag}
-                <p class="cart-item-price">${formatMUR(item.prix_mur * item.qty)} MUR</p>
+                <p class="cart-item-price">${formatMUR(item.prix_mur * item.qty)} MUR HT</p>
             </div>
             <div class="cart-item-qty">
                 <button class="qty-btn" data-id="${item.id}" data-delta="-1">−</button>
@@ -127,6 +129,19 @@ function closeCart() {
     document.getElementById('cartPanel').classList.remove('open');
     document.getElementById('cartOverlay').classList.remove('open');
     document.body.style.overflow = '';
+}
+
+const FREE_SHIPPING_THRESHOLD = 6000;
+
+function updateShippingMsg(total) {
+    const el = document.getElementById('cartShippingMsg');
+    if (!el) return;
+    if (total >= FREE_SHIPPING_THRESHOLD) {
+        el.innerHTML = '<span class="shipping-free">Livraison offerte !</span>';
+    } else {
+        const remaining = FREE_SHIPPING_THRESHOLD - total;
+        el.innerHTML = `Plus que <strong>${formatMUR(remaining)} MUR</strong> pour la livraison offerte`;
+    }
 }
 
 // --- Event listeners ---

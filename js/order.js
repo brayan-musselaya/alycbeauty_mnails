@@ -54,14 +54,14 @@ function buildOrderSummary() {
         html += `
             <div class="order-summary-line">
                 <span>${escapeHtml(item.nom)}${volLabel} × ${item.qty}</span>
-                <span>${formatMUR(item.prix_mur * item.qty)} MUR</span>
+                <span>${formatMUR(item.prix_mur * item.qty)} MUR HT</span>
             </div>
         `;
     });
 
     html += `
         <div class="order-summary-total">
-            <span>Total estimé</span>
+            <span>Total estimé HT</span>
             <span>${formatMUR(getCartTotal())} MUR</span>
         </div>
     `;

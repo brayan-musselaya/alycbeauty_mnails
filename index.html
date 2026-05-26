@@ -29,11 +29,25 @@
         </div>
     </header>
 
+    <!-- SHIPPING BANNER -->
+    <div class="shipping-banner">
+        <div class="shipping-banner-inner">
+            <span class="shipping-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="28" height="28"><path d="M5 18H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h10v11m0-11h3l3 4v7a1 1 0 0 1-1 1h-1"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+            </span>
+            <span class="shipping-text">
+                <span class="shipping-highlight">LIVRAISON OFFERTE</span>
+                <span class="shipping-sub">dès 6 000 MUR d'achat</span>
+            </span>
+        </div>
+    </div>
+
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <h2>L'excellence M'Nails,<br>livrée à Maurice</h2>
             <p>Découvrez notre catalogue complet de produits professionnels pour ongles. Gels, vernis semi-permanents, nail art, outils — tout ce qu'il faut pour sublimer vos créations.</p>
+            <p class="hero-ht-notice">Tous les prix sont affichés HT. TVA et frais de livraison précisés sur le devis.</p>
             <a href="#catalogue" class="hero-cta">Explorer le catalogue</a>
         </div>
     </section>
@@ -73,9 +87,11 @@
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-footer" id="cartFooter" style="display:none;">
             <div class="cart-total">
-                <span>Total estimé :</span>
+                <span>Total estimé HT :</span>
                 <strong id="cartTotal">0 MUR</strong>
             </div>
+            <p class="cart-ht-notice">TVA (15%) et frais de livraison indiqués dans le devis.</p>
+            <div class="cart-shipping-msg" id="cartShippingMsg"></div>
             <button class="checkout-btn" id="checkoutBtn">Valider ma commande</button>
         </div>
     </aside>

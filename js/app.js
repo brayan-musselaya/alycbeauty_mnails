@@ -160,6 +160,7 @@ function createProductCard(product) {
     const priceLabel = hasVariants
         ? `À partir de ${formatMUR(product._minPrice)}`
         : formatMUR(prixMur);
+    const htLabel = 'HT';
 
     card.innerHTML = `
         <div class="product-img-wrap">
@@ -172,7 +173,7 @@ function createProductCard(product) {
             <p class="product-name">${escapeHtml(product.nom)}</p>
             <span class="product-ref">Réf. ${product.id_product}</span>
             <div class="product-bottom">
-                <span class="product-price">${priceLabel} <small>MUR</small></span>
+                <span class="product-price">${priceLabel} <small>MUR ${htLabel}</small></span>
                 <button class="add-btn" title="${hasVariants ? 'Choisir une option' : 'Ajouter au panier'}">+</button>
             </div>
         </div>
@@ -329,7 +330,7 @@ function openProductDetail(product) {
 function updateDetailPrice(product, idx, modal) {
     const v = product.variantes[idx];
     const priceEl = modal.querySelector('.pd-price');
-    priceEl.innerHTML = `${formatMUR(v.prix_public_mur)} <small>MUR</small>`;
+    priceEl.innerHTML = `${formatMUR(v.prix_public_mur)} <small>MUR HT</small>`;
 
     const weightEl = modal.querySelector('.pd-weight');
     if (v.poids_kg && v.poids_kg > 0) {
