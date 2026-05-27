@@ -5,7 +5,7 @@
    ============================================ */
 
 // URL du Google Apps Script — à configurer après déploiement
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwwKjvhgMEd9up_ZfWG9eZ0t4ziAUW3uEsPGJukJKX60bcNOpszSAwyryrSBUj6t1E/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_3Na5C2XQfLyMHPCAvCLoO5_E9VxbMRH3lc1R-fZhz9UhYmf25jOyoMY-yAKz0Q/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
     const checkoutBtn = document.getElementById('checkoutBtn');
