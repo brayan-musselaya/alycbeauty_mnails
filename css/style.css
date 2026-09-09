@@ -147,68 +147,6 @@ body {
     justify-content: center;
 }
 
-/* ---- SHIPPING BANNER ---- */
-.shipping-banner {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-    color: var(--white);
-    text-align: center;
-    padding: 18px 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-.shipping-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(201, 169, 110, 0.08) 50%, transparent 100%);
-    pointer-events: none;
-}
-
-.shipping-banner-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    position: relative;
-    z-index: 1;
-}
-
-.shipping-icon-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: rgba(201, 169, 110, 0.15);
-    border: 1.5px solid var(--gold);
-    flex-shrink: 0;
-    color: var(--gold-light);
-}
-
-.shipping-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-}
-
-.shipping-highlight {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    color: var(--gold-light);
-}
-
-.shipping-sub {
-    font-size: 0.85rem;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.7);
-}
-
 /* ---- HERO ---- */
 .hero {
     background: linear-gradient(135deg, var(--pink-light) 0%, var(--pink-pale) 40%, #FFF9F0 100%);
