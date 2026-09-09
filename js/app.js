@@ -14,7 +14,7 @@ let currentSearch = '';
 let currentSort = 'nom';
 
 async function loadProducts() {
-    const resp = await fetch('data/products_v2.json');
+    const resp = await fetch('data/products.json');
     allProducts = await resp.json();
     allProducts.forEach(p => {
         p._minPrice = Math.min(...p.variantes.map(v => v.prix_public_mur || Infinity));
